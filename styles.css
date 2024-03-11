@@ -18,34 +18,34 @@
     --my-ltgray: #cecaca;
     
     --def-hw:    50px;
-
 }
 
 * {
     /* Use dark red border to aid in aligning boxes. */
     /* border: 2px dotted red; */
     box-sizing: border-box;
-    background-color: var(--my-yellow);
+    background-color: var(--my-dkgray);
 }
 
 button {
     background-color: var(--my-red);
     color: var(--my-white);
-    border: 2px solid var(--my-black);
+    border: 1px solid var(--my-dkgray);
     border-radius: 10px;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 button:hover {
     background-color: var(--my-red);
-    border: 2px solid var(--my-dkgray);
+    color: var(--my-yellow);
+    /* border: 1px solid var(--my-white); */
     /* outline: 2px solid black; */
 }
 
 button:active {
-    border: 5px solid var(--my-dkgray);  
-    color: var(--my-yellow);
+    border: 3px solid var(--my-dkgray);  
+    color: var(--my-dkgray);
     /* outline: 2px solid white; */
     /* transform: scale(1.05); */
 }
@@ -66,8 +66,34 @@ button:active {
 }
 
 .key-top {
-    height: var(--def-hw);
+    /* height: var(--def-hw); */
+    height: 35px;
     width: 102px;
+    border-radius: 10px;
+    margin-bottom: 2px;
+}
+
+.spec-key {
+    height: 25px;
+    background-color: var(--my-yellow);
+    color: var(--my-black);
+    border-radius: 30px;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.spec-key:hover {
+    background-color: var(--my-yellow);
+    color: var(--my-brown);
+    /* border: 1px solid var(--my-white); */
+    /* outline: 2px solid black; */
+}
+
+.spec-key:active {
+    border: 3px solid var(--my-dkgray);  
+    color: var(--my-dkgray);
+    /* outline: 2px solid white; */
+    /* transform: scale(1.05); */
 }
 
 html, body {
@@ -85,23 +111,74 @@ body {
 }
 
 main-container {
-    height: 550px;
-    width: 300px;
+    height: 460px;
+    /* width: 206px; */
+    width: 230px;
+    border: 3px double var(--my-white);
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+       padding-right: 4px;
+
 }
 
 
 display-container {
     height: 100px;
-    width: 206px;
-    background-color: var(--my-white);
-        border: 2px solid var(--my-black);
+    /* width: 206px; */
+        width: 212px;
+    background-color: var(--my-dkgray);
+    border: 2px solid var(--my-dkgray);
     border-radius: 10px;
+    color: var(--my-dkgray);
+    display: flex;
+    /* flex-direction: row; */
+        /* flex-direction: column; */
+    flex-wrap: wrap;
+    /* align-items: end; */
+    /* justify-content: end; */
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+
+    font-weight: 700;
+    margin-bottom: 4px;
     margin-left: 2px;
-    margin-bottom: 4px;;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: right;
+}
+
+#previous-number {
+    height: 60px;
+    width: 206px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+        align-items: end;
+    justify-content: end;
+    background-color: var(--my-white);
+    border-radius: 10px;
+    color: var(--my-dkgray);
+    font-size: 14px;
+    padding: 3px;
+}
+
+#current-number {
+    height: 30px;
+    width: 206px;;
+    background-color: var(--my-white);
+    border-radius: 10px;
+    color: var(--my-dkgray);
+        display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+            align-items: end;
+    justify-content: end;
+    font-size: 18px;
+    padding: 3px;
 }
 
 keypad-container {
@@ -118,8 +195,8 @@ top-keys {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
-    margin-left: 2px;
+    margin-bottom: 2px;
+    margin-left: 4px;
 
     gap: 2px;
 
