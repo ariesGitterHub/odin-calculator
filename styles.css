@@ -25,6 +25,7 @@
     /* border: 2px dotted red; */
     box-sizing: border-box;
     background-color: var(--my-dkgray);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 button {
@@ -96,6 +97,7 @@ button:active {
     /* transform: scale(1.05); */
 }
 
+
 html, body {
     margin: 0;
     padding: 0;
@@ -105,30 +107,32 @@ body {
     height: 100vh;
     width: 100vw;
     display: flex;
-
+    border-radius: 18px;
     align-items: center;
     justify-content: center;
 }
 
 main-container {
-    height: 460px;
+    height: 450px;
     /* width: 206px; */
     width: 230px;
     border: 3px double var(--my-white);
-    border-radius: 20px;
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
-       padding-right: 4px;
+         padding-bottom: 4px;
+       padding-right: 3px;
+
 
 }
 
 
 display-container {
-    height: 100px;
+    height: 90px;
     /* width: 206px; */
-        width: 212px;
+        /* width: 212px; */
     background-color: var(--my-dkgray);
     border: 2px solid var(--my-dkgray);
     border-radius: 10px;
@@ -141,44 +145,55 @@ display-container {
     /* justify-content: end; */
     align-items: center;
     justify-content: center;
-    font-family: sans-serif;
+    
 
     font-weight: 700;
     margin-bottom: 4px;
-    margin-left: 2px;
-    padding-left: 3px;
-    padding-right: 3px;
+    margin-left: 4px;
+    /* padding-left: 3px; */
+    /* padding-right: 3px; */
     text-align: right;
+    text-wrap: wrap;
 }
 
 #previous-number {
-    height: 60px;
+    height: 40px;
     width: 206px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-        align-items: end;
+        align-items: center;
     justify-content: end;
     background-color: var(--my-white);
-    border-radius: 10px;
-    color: var(--my-dkgray);
+    /* border-radius: 10px; */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: var(--my-gray);
     font-size: 14px;
     padding: 3px;
+    overflow-x: auto; 
+    overflow-y: auto;
+    /* overflow-wrap: break-word; */
 }
 
 #current-number {
-    height: 30px;
+    height: 40px;
     width: 206px;;
     background-color: var(--my-white);
-    border-radius: 10px;
+    /* border-radius: 10px; */
+        border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
     color: var(--my-dkgray);
         display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-            align-items: end;
+            align-items: center;
     justify-content: end;
-    font-size: 18px;
+    font-size: 16px;
     padding: 3px;
+    overflow-x: auto; 
+    overflow-y: auto;
+    /* overflow-wrap: break-word; */
 }
 
 keypad-container {

@@ -85,17 +85,13 @@ function appendNum(numButton) {
     console.log(numButton);
       if (numButton === "." && currentNum.includes(".")) {
         return; // Stops multiple decimals
-      } 
-      else if (isNaN(currentNum)) {
-        return;
-      }  
-      else {
+      } else {
         currentNum = currentNum.toString() + numButton.toString(); // ***NEED TO GRASP THIS LINE...
       } 
 }
 
 function appendOper(operButton) {
-  if (currentNum === "" || isNaN(currentNum)) {
+  if (currentNum === "") {
     return;
   }
   else if (previousNum !== "") {
@@ -113,9 +109,7 @@ function clear() {
   previousNum = "";
   operation = null;
   updateDisplay();
-  // displayCurrNum.setAttribute("style", "font-size: 16px");
-  displayCurrNum.style.fontSize = "16px";
-  displayCurrNum.style.textAlign = "right"; 
+  displayCurrNum.setAttribute("style", "font-size: 14px");
 }
 
 function deleteNumOrOper() {
@@ -150,11 +144,8 @@ function computeIt() {
       return;
   }
   currentNum = computation;
-  console.log(`currentNum is ${currentNum} and is a ${typeof currentNum}`);
   operation = undefined;
   previousNum = "";
-    displayCurrNum.style.fontSize = "16px";
-    displayCurrNum.style.textAlign = "right"; 
   updateDisplay(); // Refresh the display with the new state
 }
 }
@@ -180,21 +171,24 @@ function romanNumeralizer(n) {
 
   const holder = placeValue(n);
 
-  // function addCombiningOverline(text) {
-  //   // Combining Overline (U+0305)
-  //   const combiningOverline = "\u0305";
+  //TRYING TO GET VINCULUM OVER 4000, 5000, 6000, 7000, 8000, 9000...THIS CODE NOT WORKING IN LINUX...OUTPUTS BLANK CHARACTERS. MIGHT OTHERWISE WORK.
 
-  //   // Concatenate the base text and the combining overline
-  //   return text + combiningOverline;
-  // }
+  function addCombiningOverline(text) {
+    // Combining Overline (U+0305)
+    const combiningOverline = "\u0305";
+
+    // Concatenate the base text and the combining overline
+    // return text + combiningOverline; // Original
+    return text + String.fromCharCode(0) + combiningOverline; // Do both work? One above or this line, or both?
+  }
 
   const keyValueRoman = {
-    // 9000: "IX",
-    // 8000: "VIII",
-    // 7000: "VII",
-    // 6000: "VI",
-    // 5000: "V",
-    // 4000: "IV",
+    9000: "IX",
+    8000: "VIII",
+    7000: "VII",
+    6000: "VI",
+    5000: "V",
+    4000: "IV",
     3000: "MMM",
     2000: "MM",
     1000: "M",
@@ -228,38 +222,37 @@ function romanNumeralizer(n) {
     0: "",
   };
 
-  // // Keys to apply the vinculum effect
-  // const keysWithVinculum = [4000, 5000, 6000, 7000, 8000, 9000];
+  // Keys to apply the vinculum effect
+  const keysWithVinculum = [4000, 5000, 6000, 7000, 8000, 9000];
 
-  // // Loop through the keys and update the values in the object
-  // keysWithVinculum.forEach((key) => {
-  //   if (keyValueRoman.hasOwnProperty(key)) {
-  //     keyValueRoman[key] = addCombiningOverline(keyValueRoman[key]);
-  //   }
-  // });
+  // Loop through the keys and update the values in the object
+  keysWithVinculum.forEach((key) => {
+    if (keyValueRoman.hasOwnProperty(key)) {
+      keyValueRoman[key] = addCombiningOverline(keyValueRoman[key]);
+    }
+  });
 
-  // // Display the modified object
-  // console.log(keyValueRoman);
+  // Display the modified object
+  console.log(keyValueRoman);
 
   const answer = holder.map((value) => keyValueRoman[value]);
   return answer.join("");
 }
-  console.log(`Max Roman Numeral is ${romanNumeralizer(3999)}`);
+  console.log(`Max Roman Numeral is ${romanNumeralizer(9999)}`);
 
 function computeRomanNumeral() {
   let specKeyCase;
-  const current = String(currentNum);
+  const current = currentNum;
   console.log(`Current is ${current} and is a ${typeof current}`);
   // console.log(typeof current);
   if (isNaN(current)) {
     return;
-  } else if (current > 0 && current < 3999 && !current.includes(".")) {
+  } else if (spqrBtn && current > 0 && current < 9999 && !current.includes(".")) {
     specKeyCase = romanNumeralizer(current);
     console.log(specKeyCase);
   } else {
-        displayCurrNum.style.fontSize = "12px";
-        displayCurrNum.style.textAlign = "left"; 
-    specKeyCase = "Please use only natural numbers; maximum allowed is 3999.";
+    displayCurrNum.setAttribute("style", "font-size: 12px");
+    specKeyCase = "Use only natural numbers; maximum number = 9999";
   }
 console.log(`Current is ${current} and is a ${typeof current}`);
   currentNum = specKeyCase;
@@ -268,69 +261,23 @@ console.log(`Current is ${current} and is a ${typeof current}`);
 }
 
 function factorial(n) {
-    if (n === 1) {
-      return 1;
-    } else {
-      return n * factorial(n - 1);
-    }
+  if (n ===1) {
+    return 1;
+  }
+  else {
+    return n * factorial(n - 1);
+  }
 }; 
-
-// function computeFactorial() {
-//   let specKeyCase;
-//   const current = currentNum;
-//   if (isNaN(current) || current < 1 || current.includes(".")) {
-//     // return;
-//     displayCurrNum.style.fontSize = "12px";
-//     displayCurrNum.style.textAlign = "left"; 
-//     specKeyCase = "Please input natural numbers only. Click CLR Button."
-//   } else if (current > 170) {
-//     // return;
-//     displayCurrNum.style.fontSize = "12px";
-//     displayCurrNum.style.textAlign = "left"; 
-//     specKeyCase = "Result too large to represent accurately. Click CLR Button."
-
-//   } else {
-//     let holder = parseInt(current)
-//     specKeyCase = factorial(holder);
-//     console.log(specKeyCase);
-//   }
-//   currentNum = specKeyCase;
-//   updateDisplay();
-// }
 
 function computeFactorial() {
   let specKeyCase;
-  const current = currentNum;
-if (Number.isInteger(current) && current > 0 && current < 171) {
-  specKeyCase = factorial(current);
-}
-
-else if (Number.isInteger(current) && current > 171) {
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Result too large to represent accurately. Click CLR Button.";
-} 
-
-else if (!isNaN(current) || current < 1 || current.includes(".")) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Please input natural numbers only. Click CLR Button.";
-} else if (isNaN(current)) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Please input natural numbers only. Click CLR Button.";
-} else if (current > 170) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Result too large to represent accurately. Click CLR Button.";
-} else {
-  let holder = current;
-  specKeyCase = factorial(holder);
-  console.log(specKeyCase);
-}
+  const current = parseFloat(currentNum);
+  if (isNaN(current)) {
+    return;
+  } else if (factBtn && currentNum >= 1) {
+    specKeyCase = factorial(current);
+    console.log(specKeyCase);
+  }
   currentNum = specKeyCase;
   updateDisplay();
 }
@@ -339,11 +286,9 @@ function computePercentage() {
   let specKeyCase;
   const current = parseFloat(currentNum);
   if (isNaN(current)) {
-    displayCurrNum.style.fontSize = "12px";
-    displayCurrNum.style.textAlign = "left"; 
-    specKeyCase = "Percentages only work with numbers. Click CLR Button.";
+    return;
   } 
-  else {
+  else if (percBtn) {
     specKeyCase = current / 100;
     console.log(specKeyCase);
   } 
@@ -364,7 +309,7 @@ function computePercentage() {
 //   updateDisplay();
 // }
 function computeTheMeaningOfLife() {
-  const current = 42;
+  const current = "42";
   currentNum = current;
   updateDisplay();
 }
