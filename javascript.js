@@ -74,11 +74,16 @@ let currentNum = "";
 let previousNum = "";
 let operation = null;
 
-const capitalRomanNumeral = /[A-Z]/;
-
 function updateDisplay() {
   displayCurrNum.innerText = currentNum;
   displayPrevNum.innerText = previousNum + " " + (operation || "");
+  if (currentNum === Infinity) {
+    displayPrevNum.style.fontSize = "9px";
+    displayPrevNum.style.textAlign = "left"; 
+    displayPrevNum.style.color = "var(--my-red)"; 
+    displayPrevNum.style.backgroundColor = "var(--my-yellow)"; 
+    displayPrevNum.innerText = "Infinity?!? You fool! You just cracked open observable reality! The Old Ones are coming for you. Hit the CLR button!!!";
+  }
 }
 
 function appendNum(numButton) {
@@ -106,17 +111,25 @@ function appendOper(operButton) {
   currentNum = "";
 }
 
-
+function defaultStyles() {
+  displayCurrNum.style.fontSize = "16px";
+  displayCurrNum.style.textAlign = "right";
+  displayCurrNum.style.color = "var(--my-dkgray)";
+  displayCurrNum.style.backgroundColor = "var(--my-white)";
+  displayPrevNum.style.fontSize = "14px";
+  displayPrevNum.style.textAlign = "left";
+  displayPrevNum.style.color = "var(--my-gray)";
+  displayPrevNum.style.backgroundColor = "var(--my-white)"; 
+}
 
 function clear() {
   currentNum = "";
   previousNum = "";
   operation = null;
+  defaultStyles();
   updateDisplay();
   // displayCurrNum.setAttribute("style", "font-size: 16px");
-  displayCurrNum.style.fontSize = "16px";
-  displayCurrNum.style.textAlign = "right"; 
-}
+ }
 
 function deleteNumOrOper() {
   console.log("Before deletion:", currentNum);
@@ -153,8 +166,6 @@ function computeIt() {
   console.log(`currentNum is ${currentNum} and is a ${typeof currentNum}`);
   operation = undefined;
   previousNum = "";
-    displayCurrNum.style.fontSize = "16px";
-    displayCurrNum.style.textAlign = "right"; 
   updateDisplay(); // Refresh the display with the new state
 }
 }
@@ -244,7 +255,7 @@ function romanNumeralizer(n) {
   const answer = holder.map((value) => keyValueRoman[value]);
   return answer.join("");
 }
-  console.log(`Max Roman Numeral is ${romanNumeralizer(3999)}`);
+  console.log(`Max Roman Numeral is ${romanNumeralizer(3999)} or 3999.`);
 
 function computeRomanNumeral() {
   let specKeyCase;
@@ -253,12 +264,14 @@ function computeRomanNumeral() {
   // console.log(typeof current);
   if (isNaN(current)) {
     return;
-  } else if (current > 0 && current < 3999 && !current.includes(".")) {
+  } else if (current > 0 && current < 4000 && !current.includes(".")) {
+
+    displayCurrNum.style.backgroundColor = "var(--my-skyblue)";
     specKeyCase = romanNumeralizer(current);
     console.log(specKeyCase);
   } else {
-        displayCurrNum.style.fontSize = "12px";
-        displayCurrNum.style.textAlign = "left"; 
+      displayCurrNum.style.fontSize = "12px";
+      displayCurrNum.style.textAlign = "left"; 
     specKeyCase = "Please use only natural numbers; maximum allowed is 3999.";
   }
 console.log(`Current is ${current} and is a ${typeof current}`);
@@ -298,44 +311,53 @@ function factorial(n) {
 //   updateDisplay();
 // }
 
+const capitalRomanNumeral = /[A-Z]/;
+
 function computeFactorial() {
   let specKeyCase;
   const current = currentNum;
-if (Number.isInteger(current) && current > 0 && current < 171) {
-  specKeyCase = factorial(current);
+  console.log(typeof current);
+  console.log(currentNum);
+
+if (typeof current === "number") {
+  if (Number.isInteger(current) && current > 0 && current < 171) {
+    specKeyCase = factorial(current);
+  } else if (Number.isInteger(current) && current > 171) {
+      displayCurrNum.style.fontSize = "12px";
+      displayCurrNum.style.textAlign = "left";
+      specKeyCase = "Result too large to represent accurately. Click CLR Button.";
+  } else {
+      displayCurrNum.style.fontSize = "12px";
+      displayCurrNum.style.textAlign = "left";
+      specKeyCase = "Please input natural numbers only. Click CLR Button.";
+  }
+
 }
 
-else if (Number.isInteger(current) && current > 171) {
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Result too large to represent accurately. Click CLR Button.";
-} 
-
-else if (!isNaN(current) || current < 1 || current.includes(".")) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Please input natural numbers only. Click CLR Button.";
-} else if (isNaN(current)) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Please input natural numbers only. Click CLR Button.";
-} else if (current > 170) {
-
-  displayCurrNum.style.fontSize = "12px";
-  displayCurrNum.style.textAlign = "left";
-  specKeyCase = "Result too large to represent accurately. Click CLR Button.";
-} else {
-  let holder = current;
-  specKeyCase = factorial(holder);
-  console.log(specKeyCase);
+else if (typeof current === "string") {
+    if (current.includes(".") || current < 1 ) {
+      displayCurrNum.style.fontSize = "12px";
+      displayCurrNum.style.textAlign = "left";
+      specKeyCase = "Please input natural numbers only. Click CLR Button.";
+  } else if (current > 170 ) {
+      displayCurrNum.style.fontSize = "12px";
+      displayCurrNum.style.textAlign = "center";
+      displayCurrNum.style.backgroundColor = "pink";
+      displayCurrNum.style.color = "black";
+      specKeyCase = "Result too large to represent accurately. Click CLR Button.";
+  } else if (current.match(capitalRomanNumeral)) {
+    clear();
+    specKeyCase = "";
+  } else {
+      specKeyCase = factorial(current);
+  }
 }
   currentNum = specKeyCase;
   updateDisplay();
 }
 
 function computePercentage() {
+  defaultStyles();
   let specKeyCase;
   const current = parseFloat(currentNum);
   if (isNaN(current)) {
@@ -364,8 +386,11 @@ function computePercentage() {
 //   updateDisplay();
 // }
 function computeTheMeaningOfLife() {
+    displayCurrNum.style.fontSize = "16px";
+    displayCurrNum.style.textAlign = "right"; 
   const current = 42;
   currentNum = current;
+    defaultStyles();
   updateDisplay();
 }
 
@@ -386,3 +411,4 @@ function changePositiveOrNegative() {
 //   displayCurrNum.innerText = currentNum;
 //   displayPrevNum.innerText = previousNum + " " + (operation || "");
 // }
+

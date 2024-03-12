@@ -28,7 +28,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-button {
+/* button {
     background-color: var(--my-red);
     color: var(--my-white);
     border: 1px solid var(--my-dkgray);
@@ -40,15 +40,28 @@ button {
 button:hover {
     background-color: var(--my-red);
     color: var(--my-yellow);
-    /* border: 1px solid var(--my-white); */
-    /* outline: 2px solid black; */
 }
 
 button:active {
     border: 3px solid var(--my-dkgray);  
     color: var(--my-dkgray);
-    /* outline: 2px solid white; */
-    /* transform: scale(1.05); */
+} */
+
+button {
+    color: var(--my-white);
+    border: 1px solid var(--my-dkgray);
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+button:hover {
+    color: var(--my-yellow);
+}
+
+button:active {
+    border: 3px solid var(--my-dkgray);  
+    color: var(--my-dkgray);
 }
 
 .key {
@@ -74,6 +87,19 @@ button:active {
     margin-bottom: 2px;
 }
 
+.number {
+    background-color: var(--my-red);
+}
+
+.number:hover {
+    background-color: var(--my-red);
+}
+
+.key-top, #plus-minus, .operator, #equals {
+    background-color: var(--my-brown);
+}
+
+
 .spec-key {
     height: 25px;
     background-color: var(--my-yellow);
@@ -86,15 +112,11 @@ button:active {
 .spec-key:hover {
     background-color: var(--my-yellow);
     color: var(--my-brown);
-    /* border: 1px solid var(--my-white); */
-    /* outline: 2px solid black; */
 }
 
 .spec-key:active {
     border: 3px solid var(--my-dkgray);  
     color: var(--my-dkgray);
-    /* outline: 2px solid white; */
-    /* transform: scale(1.05); */
 }
 
 
@@ -116,7 +138,7 @@ main-container {
     height: 450px;
     /* width: 206px; */
     width: 230px;
-    border: 3px double var(--my-white);
+    border: 5px solid var(--my-white);
     border-radius: 18px;
     display: flex;
     flex-direction: column;
