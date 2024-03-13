@@ -1,33 +1,4 @@
-
-// THIS WAS JUST AN UNRELATED TEST ON RECURSION.
-// const factorial = n => {
-//     if (n == 1) return 1
-//     return n * factorial(n - 1)
-// } 
-// console.log(factorial(3));
-
-// let inputHolder = "";
-
-// let inputRef = document.querySelectorAll(".input-key");
-// let displayRef = document.querySelector("display-container");
-
-
-
-// inputRef.forEach(function(button) {
-//     button.addEventListener("click", function () {
-//         console.log(button.value)
-//         displayRef.textContent = button.innerText
-// })
-// })
-
-// TODO: Get rid of unneeded button attributes, like value, etc...
-
-// const currNum = document.querySelector(".current-number");
-// const prevNum = document.querySelector(".previous-number");
-
-// const display = document.querySelector("display-container");
-
-const numBtn = document.querySelectorAll(".number"); // includes "."
+const numBtn = document.querySelectorAll(".number"); // Note: includes "."
 const opeBtn = document.querySelectorAll(".operator");
 
 const equBtn = document.querySelector("#equals");
@@ -57,12 +28,10 @@ opeBtn.forEach(function (button) {
   });
 });
 
-
-
 clrBtn.addEventListener("click", clear);
 delBtn.addEventListener("click", deleteNumOrOper);
 equBtn.addEventListener("click", computeIt);
-// dotButton.addEventListener("click", appendDot);
+
 
 spqrBtn.addEventListener("click", computeRomanNumeral);
 percBtn.addEventListener("click", computePercentage);
@@ -77,12 +46,9 @@ let operation = null;
 function updateDisplay() {
   displayCurrNum.innerText = currentNum;
   displayPrevNum.innerText = previousNum + " " + (operation || "");
-  if (currentNum === Infinity) {
-    displayPrevNum.style.fontSize = "9px";
-    displayPrevNum.style.textAlign = "left"; 
-    displayPrevNum.style.color = "var(--my-red)"; 
-    displayPrevNum.style.backgroundColor = "var(--my-yellow)"; 
-    displayPrevNum.innerText = "Infinity?!? You fool! You just cracked open observable reality! The Old Ones are coming for you. Hit the CLR button!!!";
+  if (currentNum === Infinity || currentNum === -Infinity) {
+    errorStyleDivZed();
+    displayPrevNum.innerText = errMsgDivZed;
   }
 }
 
@@ -91,9 +57,9 @@ function appendNum(numButton) {
       if (numButton === "." && currentNum.includes(".")) {
         return; // Stops multiple decimals
       } 
-      else if (isNaN(currentNum)) {
-        return;
-      }  
+      // else if (isNaN(currentNum)) { // What does this line do? Needed???
+      //   return;
+      // }  
       else {
         currentNum = currentNum.toString() + numButton.toString(); // ***NEED TO GRASP THIS LINE...
       } 
@@ -102,8 +68,7 @@ function appendNum(numButton) {
 function appendOper(operButton) {
   if (currentNum === "" || isNaN(currentNum)) {
     return;
-  }
-  else if (previousNum !== "") {
+  } else if (previousNum !== "") {
     computeIt();
   }
   operation = operButton;
@@ -112,14 +77,57 @@ function appendOper(operButton) {
 }
 
 function defaultStyles() {
+  previousNum = "";
   displayCurrNum.style.fontSize = "16px";
-  displayCurrNum.style.textAlign = "right";
+  displayCurrNum.style.justifyContent = "end";
   displayCurrNum.style.color = "var(--my-dkgray)";
   displayCurrNum.style.backgroundColor = "var(--my-white)";
   displayPrevNum.style.fontSize = "14px";
-  displayPrevNum.style.textAlign = "left";
+  displayPrevNum.style.justifyContent = "end";
   displayPrevNum.style.color = "var(--my-gray)";
   displayPrevNum.style.backgroundColor = "var(--my-white)"; 
+}
+
+// Error variables...
+const fontSize = "12px";
+const errFontSize = "24px";
+const textAlign = "left"
+const justifyContent = "start";
+const backgroundColor = "var(--my-black)";
+const topText = "ERROR"
+
+const errMsgTooBig = "Result too large to represent accurately. Click CLR Button.";
+const errMsgRomNum = "Please use only natural numbers; maximum allowed is 3999.";
+const errMsgNatNum = "Please input natural numbers only. Click CLR Button.";
+const errMsgPerNum = "Percentages only work with numbers. Click CLR Button.";
+const errMsgDivZed = "Infinity?!? Uh oh, you just broke space-time. Quick, hit the CLR button!";
+
+function errorStyle() {
+  displayCurrNum.style.backgroundColor = backgroundColor;
+  displayCurrNum.style.fontSize = fontSize;
+  displayCurrNum.style.textAlign = textAlign;
+  displayPrevNum.style.backgroundColor = backgroundColor;
+  displayPrevNum.style.fontSize = errFontSize;
+  displayPrevNum.style.justifyContent = justifyContent;
+}
+
+function errorStyleDivZed() {
+  displayCurrNum.style.backgroundColor = backgroundColor;
+  displayPrevNum.style.backgroundColor = backgroundColor;
+  displayPrevNum.style.fontSize = "10px";
+  displayPrevNum.style.justifyContent = "start";
+  displayCurrNum.style.color = "gold";
+  displayPrevNum.style.color = "gold";
+}
+
+function errorLo() {
+displayCurrNum.style.color = "yellowgreen";
+displayPrevNum.style.color = "yellowgreen";
+}
+
+function errorMd() {
+displayCurrNum.style.color = "tomato";
+displayPrevNum.style.color = "tomato";
 }
 
 function clear() {
@@ -128,7 +136,6 @@ function clear() {
   operation = null;
   defaultStyles();
   updateDisplay();
-  // displayCurrNum.setAttribute("style", "font-size: 16px");
  }
 
 function deleteNumOrOper() {
@@ -139,28 +146,28 @@ function deleteNumOrOper() {
 }
 
 function computeIt() {
+  // defaultStyles();
   let computation;
   const prev = parseFloat(previousNum);
   const current = parseFloat(currentNum);
   if (isNaN(prev) || isNaN(current)) {
     return;
-  }
-  else {
-  switch (operation) {
-    case "+":
-      computation = prev + current;
-      break;
-    case "-":
-      computation = prev - current;
-      break;
-    case "*":
-      computation = prev * current;
-      break;
-    case "/":
-      computation = prev / current;
-      break;
-    default:
-      return;
+  } else {
+    switch (operation) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      case "*":
+        computation = prev * current;
+        break;
+      case "/":
+        computation = prev / current;
+        break;
+      default:
+        return;
   }
   currentNum = computation;
   console.log(`currentNum is ${currentNum} and is a ${typeof currentNum}`);
@@ -169,15 +176,6 @@ function computeIt() {
   updateDisplay(); // Refresh the display with the new state
 }
 }
-
-// function isNaturalNum(n) {
-//   if (typeof n !== "number") return "Not a number";
-//   return n >= 0.0 && Math.floor(n) === n && n !== Infinity;
-// }
-
-// console.log(isNaturalNum(-1));
-// console.log(isNaturalNum(1.1));
-// console.log(isNaturalNum(-1.1));
 
 function romanNumeralizer(n) {
   function placeValue(n, results = [], factor = 1) {
@@ -191,16 +189,8 @@ function romanNumeralizer(n) {
 
   const holder = placeValue(n);
 
-  // function addCombiningOverline(text) {
-  //   // Combining Overline (U+0305)
-  //   const combiningOverline = "\u0305";
-
-  //   // Concatenate the base text and the combining overline
-  //   return text + combiningOverline;
-  // }
-
   const keyValueRoman = {
-    // 9000: "IX",
+    // 9000: "IX", // Unable to get the vinculum lines working to use 4000 to 9000.
     // 8000: "VIII",
     // 7000: "VII",
     // 6000: "VI",
@@ -239,43 +229,29 @@ function romanNumeralizer(n) {
     0: "",
   };
 
-  // // Keys to apply the vinculum effect
-  // const keysWithVinculum = [4000, 5000, 6000, 7000, 8000, 9000];
-
-  // // Loop through the keys and update the values in the object
-  // keysWithVinculum.forEach((key) => {
-  //   if (keyValueRoman.hasOwnProperty(key)) {
-  //     keyValueRoman[key] = addCombiningOverline(keyValueRoman[key]);
-  //   }
-  // });
-
-  // // Display the modified object
-  // console.log(keyValueRoman);
-
   const answer = holder.map((value) => keyValueRoman[value]);
   return answer.join("");
 }
-  console.log(`Max Roman Numeral is ${romanNumeralizer(3999)} or 3999.`);
 
 function computeRomanNumeral() {
   let specKeyCase;
+  let topError = "";
   const current = String(currentNum);
   console.log(`Current is ${current} and is a ${typeof current}`);
-  // console.log(typeof current);
   if (isNaN(current)) {
     return;
   } else if (current > 0 && current < 4000 && !current.includes(".")) {
-
-    displayCurrNum.style.backgroundColor = "var(--my-skyblue)";
-    specKeyCase = romanNumeralizer(current);
-    console.log(specKeyCase);
+      specKeyCase = romanNumeralizer(current);
+      console.log(specKeyCase);
   } else {
-      displayCurrNum.style.fontSize = "12px";
-      displayCurrNum.style.textAlign = "left"; 
-    specKeyCase = "Please use only natural numbers; maximum allowed is 3999.";
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgRomNum;
+      topError = topText;
   }
 console.log(`Current is ${current} and is a ${typeof current}`);
   currentNum = specKeyCase;
+  previousNum = topError;
   updateDisplay();
   console.log(`Current is ${current} and is a ${typeof current}`);
 }
@@ -288,33 +264,11 @@ function factorial(n) {
     }
 }; 
 
-// function computeFactorial() {
-//   let specKeyCase;
-//   const current = currentNum;
-//   if (isNaN(current) || current < 1 || current.includes(".")) {
-//     // return;
-//     displayCurrNum.style.fontSize = "12px";
-//     displayCurrNum.style.textAlign = "left"; 
-//     specKeyCase = "Please input natural numbers only. Click CLR Button."
-//   } else if (current > 170) {
-//     // return;
-//     displayCurrNum.style.fontSize = "12px";
-//     displayCurrNum.style.textAlign = "left"; 
-//     specKeyCase = "Result too large to represent accurately. Click CLR Button."
-
-//   } else {
-//     let holder = parseInt(current)
-//     specKeyCase = factorial(holder);
-//     console.log(specKeyCase);
-//   }
-//   currentNum = specKeyCase;
-//   updateDisplay();
-// }
-
 const capitalRomanNumeral = /[A-Z]/;
 
 function computeFactorial() {
   let specKeyCase;
+  let topError = "";
   const current = currentNum;
   console.log(typeof current);
   console.log(currentNum);
@@ -323,68 +277,62 @@ if (typeof current === "number") {
   if (Number.isInteger(current) && current > 0 && current < 171) {
     specKeyCase = factorial(current);
   } else if (Number.isInteger(current) && current > 171) {
-      displayCurrNum.style.fontSize = "12px";
-      displayCurrNum.style.textAlign = "left";
-      specKeyCase = "Result too large to represent accurately. Click CLR Button.";
+      errorStyle();
+      errorMd();
+      specKeyCase = errMsgTooBig
+      topError = topText;
   } else {
-      displayCurrNum.style.fontSize = "12px";
-      displayCurrNum.style.textAlign = "left";
-      specKeyCase = "Please input natural numbers only. Click CLR Button.";
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgNatNum;
+      topError = topText;
   }
-
-}
-
-else if (typeof current === "string") {
+} else if (typeof current === "string") {
     if (current.includes(".") || current < 1 ) {
-      displayCurrNum.style.fontSize = "12px";
-      displayCurrNum.style.textAlign = "left";
-      specKeyCase = "Please input natural numbers only. Click CLR Button.";
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgNatNum;
+      topError = topText;
   } else if (current > 170 ) {
-      displayCurrNum.style.fontSize = "12px";
-      displayCurrNum.style.textAlign = "center";
-      displayCurrNum.style.backgroundColor = "pink";
-      displayCurrNum.style.color = "black";
-      specKeyCase = "Result too large to represent accurately. Click CLR Button.";
+      errorStyle();
+      errorMd();
+      specKeyCase = errMsgTooBig;
+      topError = topText;
   } else if (current.match(capitalRomanNumeral)) {
-    clear();
-    specKeyCase = "";
+      // clear();
+      // specKeyCase = "";
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgNatNum;
+      topError = topText;
   } else {
       specKeyCase = factorial(current);
   }
 }
   currentNum = specKeyCase;
+  previousNum = topError;
   updateDisplay();
 }
 
 function computePercentage() {
   defaultStyles();
   let specKeyCase;
+  let topError = "";
   const current = parseFloat(currentNum);
   if (isNaN(current)) {
-    displayCurrNum.style.fontSize = "12px";
-    displayCurrNum.style.textAlign = "left"; 
-    specKeyCase = "Percentages only work with numbers. Click CLR Button.";
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgPerNum;
+      topError = topText;
   } 
   else {
     specKeyCase = current / 100;
-    console.log(specKeyCase);
-  } 
+    } 
   currentNum = specKeyCase;
+  previousNum = topError;
   updateDisplay()
 }
 
-// function computeTheMeaningOfLife() {
-//   let specKeyCase;
-//   const current = parseFloat(currentNum);
-//   if (isNaN(current)) {
-//     return;
-//   } else if (tmolBtn) {
-//     specKeyCase = 42;
-//     console.log(specKeyCase);
-//   }
-//   currentNum = specKeyCase;
-//   updateDisplay();
-// }
 function computeTheMeaningOfLife() {
     displayCurrNum.style.fontSize = "16px";
     displayCurrNum.style.textAlign = "right"; 
@@ -406,9 +354,4 @@ function changePositiveOrNegative() {
   currentNum = specKeyCase;
   updateDisplay();
 }
-
-// function updateDisplay() {
-//   displayCurrNum.innerText = currentNum;
-//   displayPrevNum.innerText = previousNum + " " + (operation || "");
-// }
 

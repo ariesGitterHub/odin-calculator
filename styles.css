@@ -1,5 +1,6 @@
 :root {
     --my-red:    #7c2f2f;
+    --my-red2:   #8a4646;
     --my-orange: #a3731b;
     --my-yellow: #c3ab27;
     --my-green:  #275b27;
@@ -27,25 +28,6 @@
     background-color: var(--my-dkgray);
     font-family: Arial, Helvetica, sans-serif;
 }
-
-/* button {
-    background-color: var(--my-red);
-    color: var(--my-white);
-    border: 1px solid var(--my-dkgray);
-    border-radius: 10px;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-button:hover {
-    background-color: var(--my-red);
-    color: var(--my-yellow);
-}
-
-button:active {
-    border: 3px solid var(--my-dkgray);  
-    color: var(--my-dkgray);
-} */
 
 button {
     color: var(--my-white);
@@ -96,7 +78,7 @@ button:active {
 }
 
 .key-top, #plus-minus, .operator, #equals {
-    background-color: var(--my-brown);
+    background-color: var(--my-red2);
 }
 
 
@@ -174,18 +156,16 @@ display-container {
     margin-left: 4px;
     /* padding-left: 3px; */
     /* padding-right: 3px; */
-    text-align: right;
-    text-wrap: wrap;
+
 }
 
 #previous-number {
     height: 40px;
     width: 206px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-        align-items: center;
+    align-items: center;
     justify-content: end;
+    flex-wrap: wrap;
     background-color: var(--my-white);
     /* border-radius: 10px; */
     border-top-left-radius: 8px;
@@ -196,6 +176,7 @@ display-container {
     overflow-x: auto; 
     overflow-y: auto;
     /* overflow-wrap: break-word; */
+  
 }
 
 #current-number {
@@ -206,11 +187,12 @@ display-container {
         border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     color: var(--my-dkgray);
-        display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-            align-items: center;
+    display: flex;
+align-items: center;
     justify-content: end;
+    flex-wrap: wrap;
+            
+
     font-size: 16px;
     padding: 3px;
     overflow-x: auto; 
