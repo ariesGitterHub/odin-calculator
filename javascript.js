@@ -88,8 +88,8 @@ function defaultStyles() {
 }
 
 // Error Handling
-const fontSize = "12px";
-const errFontSize = "24px";
+const fontSize = "10px";
+const errFontSize = "20px";
 const textAlign = "left"
 const justifyContent = "start";
 const backgroundColor = "var(--my-black)";
@@ -113,7 +113,7 @@ function errorStyle() {
 function errorStyleDivZed() {
   displayCurrNum.style.backgroundColor = backgroundColor;
   displayPrevNum.style.backgroundColor = backgroundColor;
-  displayPrevNum.style.fontSize = "10px";
+  displayPrevNum.style.fontSize = fontSize;
   displayPrevNum.style.justifyContent = "start";
   displayCurrNum.style.color = "gold";
   displayPrevNum.style.color = "gold";
