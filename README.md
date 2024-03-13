@@ -32,3 +32,13 @@ Here are some use cases (abilities your project needs to have):
 - Make it look nice! This is a great project to practice your CSS skills. At least make the operations a different color from the keypad buttons.
 - Add a “backspace” button, so the user can undo if they click the wrong number.
 - Add keyboard support! You might run into an issue where keys such as (/) might cause you some trouble. Read the [MDN documentation for event.preventDefault](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) to help solve this problem.
+
+## Vinculum Problem with Roman Numerals
+I was not able to work out Roman Numerals higher than 3999, as a ["vinculum"](https://en.wikipedia.org/wiki/Vinculum_(symbol)) is needed to differentiate the higher value. Despite my efforts using Chrome Linux, I simply could not get the vinculum line to render in the browser. Note that it might have worked in other browsers though. This is possibly something to work on (maybe) at a later date. 
+
+The following are useful websites for understanding higher number Roman numerals (e.g., 4000, 5000, 6000, etc.)
+
+- [Large Numbers in Roman Numerals](https://romannumerals.guide/how-roman-numerals-work#large-numbers)
+- [4000 in Roman Numerals](http://www.romannumerals.co/number-converter/4000-in-roman-numerals/)
+
+Fun fact: The Romans did not use the same symbol more than three times in a row (source: https://www.livescience.com/32052-roman-numerals.html). This is why MMMM cannot be used for 4000, rather a vinculum line is needed above the, so I̅V̅.

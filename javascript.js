@@ -29,7 +29,7 @@ opeBtn.forEach(function (button) {
 });
 
 clrBtn.addEventListener("click", clear);
-delBtn.addEventListener("click", deleteNumOrOper);
+delBtn.addEventListener("click", deleteNum);
 equBtn.addEventListener("click", computeIt);
 
 
@@ -53,16 +53,15 @@ function updateDisplay() {
 }
 
 function appendNum(numButton) {
-    console.log(numButton);
-      if (numButton === "." && currentNum.includes(".")) {
-        return; // Stops multiple decimals
-      } 
-      // else if (isNaN(currentNum)) { // What does this line do? Needed???
-      //   return;
-      // }  
-      else {
-        currentNum = currentNum.toString() + numButton.toString(); // ***NEED TO GRASP THIS LINE...
-      } 
+  if (numButton === "." && currentNum.includes(".")) {
+    return; // Stops multiple decimals
+  } 
+  // else if (isNaN(currentNum)) { // This line stops anything not a number or a string that represents a number. Code below handles this problem of non-numbers now, but keep in case I reuse this code at a future date.
+  //   return;
+  // }  
+  else {
+    currentNum = currentNum.toString() + numButton.toString(); // This allows for numbers with digits more than one. I always forget to do this at first.
+  } 
 }
 
 function appendOper(operButton) {
@@ -88,7 +87,7 @@ function defaultStyles() {
   displayPrevNum.style.backgroundColor = "var(--my-white)"; 
 }
 
-// Error variables...
+// Error Handling
 const fontSize = "12px";
 const errFontSize = "24px";
 const textAlign = "left"
@@ -121,13 +120,13 @@ function errorStyleDivZed() {
 }
 
 function errorLo() {
-displayCurrNum.style.color = "yellowgreen";
-displayPrevNum.style.color = "yellowgreen";
+  displayCurrNum.style.color = "yellowgreen";
+  displayPrevNum.style.color = "yellowgreen";
 }
 
 function errorMd() {
-displayCurrNum.style.color = "tomato";
-displayPrevNum.style.color = "tomato";
+  displayCurrNum.style.color = "tomato";
+  displayPrevNum.style.color = "tomato";
 }
 
 function clear() {
@@ -138,43 +137,39 @@ function clear() {
   updateDisplay();
  }
 
-function deleteNumOrOper() {
-  console.log("Before deletion:", currentNum);
+function deleteNum() {
   currentNum = currentNum.toString().slice(0, -1);
-  console.log("After deletion:", currentNum);
   updateDisplay();
 }
 
 function computeIt() {
-  // defaultStyles();
   let computation;
   const prev = parseFloat(previousNum);
   const current = parseFloat(currentNum);
   if (isNaN(prev) || isNaN(current)) {
     return;
   } else {
-    switch (operation) {
-      case "+":
-        computation = prev + current;
-        break;
-      case "-":
-        computation = prev - current;
-        break;
-      case "*":
-        computation = prev * current;
-        break;
-      case "/":
-        computation = prev / current;
-        break;
-      default:
-        return;
-  }
+      switch (operation) {
+        case "+":
+          computation = prev + current;
+          break;
+        case "-":
+          computation = prev - current;
+          break;
+        case "*":
+          computation = prev * current;
+          break;
+        case "/":
+          computation = prev / current;
+          break;
+        default:
+          return;
+    }
   currentNum = computation;
-  console.log(`currentNum is ${currentNum} and is a ${typeof currentNum}`);
   operation = undefined;
   previousNum = "";
-  updateDisplay(); // Refresh the display with the new state
-}
+  updateDisplay();
+  }
 }
 
 function romanNumeralizer(n) {
@@ -186,7 +181,6 @@ function romanNumeralizer(n) {
     }
     return results;
   }
-
   const holder = placeValue(n);
 
   const keyValueRoman = {
@@ -195,7 +189,9 @@ function romanNumeralizer(n) {
     // 7000: "VII",
     // 6000: "VI",
     // 5000: "V",
+    // 4000: `<span class="overline">I</span><span class="overline">V</span>"`, // This did not work...
     // 4000: "IV",
+    // 4000: "I̅V̅", // This did not render properly in the browser. 
     3000: "MMM",
     2000: "MM",
     1000: "M",
@@ -228,8 +224,9 @@ function romanNumeralizer(n) {
     1: "I",
     0: "",
   };
-
-  const answer = holder.map((value) => keyValueRoman[value]);
+  const answer = holder.map(function (value) {
+    return keyValueRoman[value];
+  });
   return answer.join("");
 }
 
@@ -237,23 +234,19 @@ function computeRomanNumeral() {
   let specKeyCase;
   let topError = "";
   const current = String(currentNum);
-  console.log(`Current is ${current} and is a ${typeof current}`);
   if (isNaN(current)) {
     return;
-  } else if (current > 0 && current < 4000 && !current.includes(".")) {
+  } else if (current > 0 && current < 4001 && !current.includes(".")) {
       specKeyCase = romanNumeralizer(current);
-      console.log(specKeyCase);
   } else {
       errorStyle();
       errorLo();
       specKeyCase = errMsgRomNum;
       topError = topText;
   }
-console.log(`Current is ${current} and is a ${typeof current}`);
   currentNum = specKeyCase;
   previousNum = topError;
   updateDisplay();
-  console.log(`Current is ${current} and is a ${typeof current}`);
 }
 
 function factorial(n) {
@@ -270,48 +263,43 @@ function computeFactorial() {
   let specKeyCase;
   let topError = "";
   const current = currentNum;
-  console.log(typeof current);
-  console.log(currentNum);
-
-if (typeof current === "number") {
-  if (Number.isInteger(current) && current > 0 && current < 171) {
-    specKeyCase = factorial(current);
-  } else if (Number.isInteger(current) && current > 171) {
-      errorStyle();
-      errorMd();
-      specKeyCase = errMsgTooBig
-      topError = topText;
-  } else {
-      errorStyle();
-      errorLo();
-      specKeyCase = errMsgNatNum;
-      topError = topText;
-  }
-} else if (typeof current === "string") {
-    if (current.includes(".") || current < 1 ) {
-      errorStyle();
-      errorLo();
-      specKeyCase = errMsgNatNum;
-      topError = topText;
-  } else if (current > 170 ) {
-      errorStyle();
-      errorMd();
-      specKeyCase = errMsgTooBig;
-      topError = topText;
-  } else if (current.match(capitalRomanNumeral)) {
-      // clear();
-      // specKeyCase = "";
-      errorStyle();
-      errorLo();
-      specKeyCase = errMsgNatNum;
-      topError = topText;
-  } else {
+  if (typeof current === "number") {
+    if (Number.isInteger(current) && current > 0 && current < 171) {
       specKeyCase = factorial(current);
+    } else if (Number.isInteger(current) && current > 171) {
+        errorStyle();
+        errorMd();
+        specKeyCase = errMsgTooBig
+        topError = topText;
+    } else {
+        errorStyle();
+        errorLo();
+        specKeyCase = errMsgNatNum;
+        topError = topText;
+    }
+  } else if (typeof current === "string") {
+      if (current.includes(".") || current < 1 ) {
+        errorStyle();
+        errorLo();
+        specKeyCase = errMsgNatNum;
+        topError = topText;
+    } else if (current > 170 ) {
+        errorStyle();
+        errorMd();
+        specKeyCase = errMsgTooBig;
+        topError = topText;
+    } else if (current.match(capitalRomanNumeral)) {
+        errorStyle();
+        errorLo();
+        specKeyCase = errMsgNatNum;
+        topError = topText;
+    } else {
+        specKeyCase = factorial(current);
+    }
   }
-}
-  currentNum = specKeyCase;
-  previousNum = topError;
-  updateDisplay();
+    currentNum = specKeyCase;
+    previousNum = topError;
+    updateDisplay();
 }
 
 function computePercentage() {
@@ -334,11 +322,9 @@ function computePercentage() {
 }
 
 function computeTheMeaningOfLife() {
-    displayCurrNum.style.fontSize = "16px";
-    displayCurrNum.style.textAlign = "right"; 
-  const current = 42;
-  currentNum = current;
-    defaultStyles();
+  defaultStyles();
+  currentNum = 42;
+  previousNum = "The meaning of life is... ";
   updateDisplay();
 }
 
@@ -349,9 +335,7 @@ function changePositiveOrNegative() {
     return;
   } else if (plmiBtn) {
     specKeyCase = current * -1;
-    console.log(specKeyCase);
   }
   currentNum = specKeyCase;
   updateDisplay();
 }
-
