@@ -56,7 +56,7 @@ function appendNum(numButton) {
   if (numButton === "." && currentNum.includes(".")) {
     return; // Stops multiple decimals
   } 
-  // else if (isNaN(currentNum)) { // This line stops anything not a number or a string that represents a number. Code below handles this problem of non-numbers now, but keep in case I reuse this code at a future date.
+  // else if (isNaN(currentNum)) { // This line stops anything not a number, or a string that represents a number. Code below handles this problem of non-numbers now, but keep in case I reuse this code at a future date.
   //   return;
   // }  
   else {
@@ -96,7 +96,7 @@ const backgroundColor = "var(--my-black)";
 const topText = "ERROR"
 
 const errMsgTooBig = "Result too large to represent accurately. Click CLR Button.";
-const errMsgRomNum = "Please use only natural numbers; maximum allowed is 3999.";
+const errMsgRomNum = "Please use only natural numbers; Roman numeral maximum is 3999.";
 const errMsgNatNum = "Please input natural numbers only. Click CLR Button.";
 const errMsgPerNum = "Percentages only work with numbers. Click CLR Button.";
 const errMsgDivZed = "Infinity?!? Uh oh, you just broke space-time. Quick, hit the CLR button!";

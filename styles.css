@@ -35,6 +35,7 @@ button {
     color: var(--my-white);
     font-size: 24px;
     font-weight: 700;
+    text-align: center;
 }
 
 button:hover {
@@ -85,7 +86,7 @@ button:active {
     background-color: var(--my-yellow);
     border-radius: 30px;    
     color: var(--my-black);
-    font-size: 12px;
+    font-size: 11px;
     margin-bottom: 2px;
 }
 
