@@ -86,7 +86,7 @@ button:active {
     background-color: var(--my-yellow);
     border-radius: 30px;    
     color: var(--my-black);
-    font-size: 11px;
+    font-size: 10px;
     margin-bottom: 2px;
 }
 
