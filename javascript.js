@@ -77,11 +77,11 @@ function appendOper(operButton) {
 
 function defaultStyles() {
   previousNum = "";
-  displayCurrNum.style.fontSize = "16px";
+  displayCurrNum.style.fontSize = "14px";
   displayCurrNum.style.justifyContent = "end";
   displayCurrNum.style.color = "var(--my-dkgray)";
   displayCurrNum.style.backgroundColor = "var(--my-white)";
-  displayPrevNum.style.fontSize = "14px";
+  displayPrevNum.style.fontSize = "12px";
   displayPrevNum.style.justifyContent = "end";
   displayPrevNum.style.color = "var(--my-gray)";
   displayPrevNum.style.backgroundColor = "var(--my-white)"; 
@@ -224,7 +224,7 @@ function romanNumeralizer(n) {
     1: "I",
     0: "",
   };
-  const answer = holder.map(function (value) {
+    const answer = holder.map(function (value) {
     return keyValueRoman[value];
   });
   return answer.join("");
@@ -236,7 +236,7 @@ function computeRomanNumeral() {
   const current = String(currentNum);
   if (isNaN(current)) {
     return;
-  } else if (current > 0 && current < 4001 && !current.includes(".")) {
+  } else if (current > 0 && current < 4000 && !current.includes(".")) {
       specKeyCase = romanNumeralizer(current);
   } else {
       errorStyle();

@@ -156,7 +156,7 @@ display-container {
         align-items: center;
         justify-content: end;
         flex-wrap: wrap;
-    font-size: 14px;
+    font-size: 12px;
     padding: 3px;
     overflow: auto;
 }
@@ -172,7 +172,7 @@ display-container {
         align-items: center;
         justify-content: end;
         flex-wrap: wrap; 
-    font-size: 16px;
+    font-size: 14px;
     padding: 3px;
     overflow: auto;
 }
