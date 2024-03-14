@@ -14,6 +14,36 @@ const plmiBtn = document.querySelector("#plus-minus");
 const displayCurrNum = document.querySelector("#current-number");
 const displayPrevNum = document.querySelector("#previous-number");
 
+let currentNum = "";
+let previousNum = "";
+let operation = null;
+let specKeyCase;
+let topMsgOrError = "";
+
+const capitalRomanNumeral = /[A-Z]/;
+const romanNumeralTopLimit = 4000;
+const factorialBotLimit = 1;
+const factorialTopLimit = 170;
+
+// Responsive Style Changes to Error Handling
+const fontSize = "10px";
+const errFontSize = "20px";
+const textAlign = "left"
+const justifyContent = "start";
+const backgroundColor = "var(--my-black)";
+
+// Messages
+const errMsgPrevNumText = "ERROR";
+const errMsgDivZed =
+  "Infinity?!? Uh oh, you just broke space-time. Quick, hit the CLR button!";
+const errMsgNatNum = "Please input natural numbers only. Click CLR Button.";
+const errMsgPerNum = "Percentages only work with numbers. Click CLR Button.";
+const errMsgRomNum =
+  "Please use only natural numbers; Roman numeral maximum is 3999.";
+const errMsgTooBig =
+  "Result too large to represent accurately. Click CLR Button.";
+const msgRomNumClr = "Please hit CLR to continue.";
+
 numBtn.forEach(function (button) {
   button.addEventListener("click", function () {
     appendNum(button.innerText);
@@ -39,10 +69,6 @@ factBtn.addEventListener("click", computeFactorial);
 tmolBtn.addEventListener("click", computeTheMeaningOfLife);
 plmiBtn.addEventListener("click", changePositiveOrNegative);
 
-let currentNum = "";
-let previousNum = "";
-let operation = null;
-
 function updateDisplay() {
   displayCurrNum.innerText = currentNum;
   displayPrevNum.innerText = previousNum + " " + (operation || "");
@@ -59,13 +85,24 @@ function appendNum(numButton) {
   // else if (isNaN(currentNum)) { // This line stops anything not a number, or a string that represents a number. Code below handles this problem of non-numbers now, but keep in case I reuse this code at a future date.
   //   return;
   // }  
-  else {
+  else if (
+    currentNum === Infinity ||
+    currentNum === -Infinity ||
+    previousNum === "ERROR" ||
+    currentNum.match(capitalRomanNumeral)
+  ) {
+    return;
+  } else {
     currentNum = currentNum.toString() + numButton.toString(); // This allows for numbers with digits more than one. I always forget to do this at first.
   } 
 }
 
 function appendOper(operButton) {
-  if (currentNum === "" || isNaN(currentNum)) {
+  if (
+    currentNum === "" ||
+    isNaN(currentNum) ||
+    previousNum === "ERROR"
+    ) {
     return;
   } else if (previousNum !== "") {
     computeIt();
@@ -77,6 +114,7 @@ function appendOper(operButton) {
 
 function defaultStyles() {
   previousNum = "";
+  topMsgOrError = "";
   displayCurrNum.style.fontSize = "14px";
   displayCurrNum.style.justifyContent = "end";
   displayCurrNum.style.color = "var(--my-dkgray)";
@@ -87,19 +125,9 @@ function defaultStyles() {
   displayPrevNum.style.backgroundColor = "var(--my-white)"; 
 }
 
-// Error Handling
-const fontSize = "10px";
-const errFontSize = "20px";
-const textAlign = "left"
-const justifyContent = "start";
-const backgroundColor = "var(--my-black)";
-const topText = "ERROR"
-
-const errMsgTooBig = "Result too large to represent accurately. Click CLR Button.";
-const errMsgRomNum = "Please use only natural numbers; Roman numeral maximum is 3999.";
-const errMsgNatNum = "Please input natural numbers only. Click CLR Button.";
-const errMsgPerNum = "Percentages only work with numbers. Click CLR Button.";
-const errMsgDivZed = "Infinity?!? Uh oh, you just broke space-time. Quick, hit the CLR button!";
+function errMsgPrevNumFunc() {
+  topMsgOrError = errMsgPrevNumText;
+}
 
 function errorStyle() {
   displayCurrNum.style.backgroundColor = backgroundColor;
@@ -129,6 +157,14 @@ function errorMd() {
   displayPrevNum.style.color = "tomato";
 }
 
+function romanNumeralStyle() {
+  displayCurrNum.style.backgroundColor = backgroundColor;
+  displayPrevNum.style.backgroundColor = backgroundColor;
+  displayPrevNum.style.justifyContent = justifyContent;
+  displayCurrNum.style.color = "deepskyblue";
+  displayPrevNum.style.color = "deepskyblue";
+}
+
 function clear() {
   currentNum = "";
   previousNum = "";
@@ -138,8 +174,16 @@ function clear() {
  }
 
 function deleteNum() {
-  currentNum = currentNum.toString().slice(0, -1);
-  updateDisplay();
+  if (
+    currentNum === Infinity ||
+    currentNum === -Infinity ||
+    previousNum === "ERROR" 
+  ) {
+    return;
+  } else {
+    currentNum = currentNum.toString().slice(0, -1);
+    updateDisplay();
+  }
 }
 
 function computeIt() {
@@ -191,7 +235,7 @@ function romanNumeralizer(n) {
     // 5000: "V",
     // 4000: `<span class="overline">I</span><span class="overline">V</span>"`, // This did not work...
     // 4000: "IV",
-    // 4000: "I̅V̅", // This did not render properly in the browser. 
+    // 4000: "I̅V̅", // This text shows the vinculum over "IV", but it did not render properly in the browser. 
     3000: "MMM",
     2000: "MM",
     1000: "M",
@@ -231,21 +275,22 @@ function romanNumeralizer(n) {
 }
 
 function computeRomanNumeral() {
-  let specKeyCase;
-  let topError = "";
+
   const current = String(currentNum);
   if (isNaN(current)) {
     return;
-  } else if (current > 0 && current < 4000 && !current.includes(".")) {
-      specKeyCase = romanNumeralizer(current);
+  } else if (current > 0 && current < romanNumeralTopLimit && !current.includes(".")) {
+    romanNumeralStyle();
+    specKeyCase = `${currentNum} = ${romanNumeralizer(current)}`;
+    topMsgOrError = msgRomNumClr;
   } else {
-      errorStyle();
-      errorLo();
-      specKeyCase = errMsgRomNum;
-      topError = topText;
+    errorStyle();
+    errorLo();
+    specKeyCase = errMsgRomNum;
+    errMsgPrevNumFunc();
   }
   currentNum = specKeyCase;
-  previousNum = topError;
+  previousNum = topMsgOrError;
   updateDisplay();
 }
 
@@ -257,67 +302,66 @@ function factorial(n) {
     }
 }; 
 
-const capitalRomanNumeral = /[A-Z]/;
-
 function computeFactorial() {
-  let specKeyCase;
-  let topError = "";
+  defaultStyles();
   const current = currentNum;
   if (typeof current === "number") {
-    if (Number.isInteger(current) && current > 0 && current < 171) {
+    if (
+      Number.isInteger(current) &&
+      current >= factorialBotLimit &&
+      current < factorialTopLimit + 1
+    ) {
       specKeyCase = factorial(current);
-    } else if (Number.isInteger(current) && current > 171) {
-        errorStyle();
-        errorMd();
-        specKeyCase = errMsgTooBig
-        topError = topText;
+    } else if (Number.isInteger(current) && current > factorialTopLimit + 1) {
+      errorStyle();
+      errorMd();
+      specKeyCase = errMsgTooBig;
+      errMsgPrevNumFunc();
     } else {
-        errorStyle();
-        errorLo();
-        specKeyCase = errMsgNatNum;
-        topError = topText;
+      errorStyle();
+      errorLo();
+      specKeyCase = errMsgNatNum;
+      errMsgPrevNumFunc();
     }
   } else if (typeof current === "string") {
-      if (current.includes(".") || current < 1 ) {
+      if (current.includes(".") || current < factorialBotLimit) {
         errorStyle();
         errorLo();
         specKeyCase = errMsgNatNum;
-        topError = topText;
-    } else if (current > 170 ) {
+        errMsgPrevNumFunc();
+      } else if (current > factorialTopLimit) {
         errorStyle();
         errorMd();
         specKeyCase = errMsgTooBig;
-        topError = topText;
-    } else if (current.match(capitalRomanNumeral)) {
+        errMsgPrevNumFunc();
+      } else if (current.match(capitalRomanNumeral)) {
         errorStyle();
         errorLo();
         specKeyCase = errMsgNatNum;
-        topError = topText;
-    } else {
+        errMsgPrevNumFunc();
+      } else {
         specKeyCase = factorial(current);
-    }
+      }
   }
     currentNum = specKeyCase;
-    previousNum = topError;
+    previousNum = topMsgOrError;
     updateDisplay();
 }
 
 function computePercentage() {
   defaultStyles();
-  let specKeyCase;
-  let topError = "";
   const current = parseFloat(currentNum);
   if (isNaN(current)) {
       errorStyle();
       errorLo();
       specKeyCase = errMsgPerNum;
-      topError = topText;
+      errMsgPrevNumFunc();
   } 
   else {
     specKeyCase = current / 100;
     } 
   currentNum = specKeyCase;
-  previousNum = topError;
+  previousNum = topMsgOrError;
   updateDisplay()
 }
 
@@ -329,7 +373,6 @@ function computeTheMeaningOfLife() {
 }
 
 function changePositiveOrNegative() {
-  let specKeyCase;
   const current = parseFloat(currentNum);
   if (isNaN(current)) {
     return;
