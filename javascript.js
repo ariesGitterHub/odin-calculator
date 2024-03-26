@@ -26,8 +26,8 @@ const factorialBotLimit = 1;
 const factorialTopLimit = 170;
 
 // Responsive Style Changes to Error Handling
-const fontSize = "10px";
-const errFontSize = "20px";
+const fontSize = "1rem";
+const errFontSize = "2rem";
 const textAlign = "left"
 const justifyContent = "start";
 const backgroundColor = "var(--my-black)";
