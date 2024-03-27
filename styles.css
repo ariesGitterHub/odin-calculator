@@ -94,12 +94,12 @@ textarea:not([rows]) {
     --my-ltgray: #cecaca;
     
     --def-hw:    50px;
+    box-sizing: border-box;
 }
 
 * {
     /* Use dark red border to aid in aligning boxes. */
     /* border: 2px dotted red; */
-    box-sizing: border-box;
 }
 
 html {
