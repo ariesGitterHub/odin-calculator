@@ -42,3 +42,6 @@ The following are useful websites for understanding higher number Roman numerals
 - [4000 in Roman Numerals](http://www.romannumerals.co/number-converter/4000-in-roman-numerals/)
 
 Fun fact: The Romans did not use the same symbol more than three times in a row (source: https://www.livescience.com/32052-roman-numerals.html). This is why MMMM cannot be used for 4000, rather a vinculum line is needed above the, so I̅V̅.
+
+TO-DO
+- Clicking TMOl, then an operator, then TMOL again, breaks the calculator, forcing one to CLR.
